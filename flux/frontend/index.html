@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' qrc:; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Flux</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="motion.css">
+  <script defer src="qrc:///qtwebchannel/qwebchannel.js"></script>
+  <script defer src="plasma.js"></script>
+  <script defer src="orb.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body data-state="idle">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-orb"><img src="../assets/flux-orb.png" alt=""></div><span>FLUX</span><span class="version">PERSONAL AI</span></div>
+    <button id="new-chat" class="new-chat"><span data-icon="plus"></span>New chat<kbd>Ctrl N</kbd></button>
+    <button class="nav-item active" data-page="chat"><span data-icon="chat"></span>Chats<span id="chat-count" class="count">0</span></button>
+    <div class="search"><span data-icon="search"></span><input id="search" type="search" placeholder="Search conversations" aria-label="Search conversations"></div>
+    <div class="section-label">RECENT CONVERSATIONS</div>
+    <div id="sessions" class="sessions" aria-label="Saved conversations"></div>
+    <nav class="bottom-nav">
+      <button class="nav-item" data-page="memory"><span data-icon="memory"></span>Memory<span id="memory-count" class="count">0</span></button>
+      <button class="nav-item" data-page="voice"><span data-icon="wave"></span>Voice</button>
+      <button class="nav-item" data-page="settings"><span data-icon="settings"></span>Settings</button>
+    </nav>
+    <div class="sidebar-footer"><span class="local-dot"></span><div>Made to be yours<small>Private. Personal. On your PC.</small></div></div>
+  </aside>
+  <main>
+    <header class="topbar"><div class="presence"><span class="orb orb-small" aria-label="Flux"></span><span id="page-title">Your space</span><span class="header-divider"></span><span class="subtle" id="header-detail">A little clarity, whenever you need it.</span></div><div class="local-badge"><span class="local-dot"></span>LOCAL FIRST</div></header>
+    <section id="chat-page" class="page chat-page">
+      <div id="chat-scroll" class="chat-scroll">
+        <div id="welcome" class="welcome">
+          <div class="orb" aria-label="Flux orb"><div class="orb-halo"></div><div class="orb-ring"></div><div class="orb-image"><img src="../assets/flux-orb.png" alt="Pink glowing Flux orb"></div></div>
+          <p class="eyebrow">YOUR MIND, WITH A LITTLE MORE SPACE</p>
+          <h1>What's on your mind?</h1>
+          <p class="hero-subtitle">Think out loud. Follow an idea. Make something yours.</p>
+          <div class="suggestions"><button data-prompt="Help me think through an idea."><span data-icon="spark"></span>Explore an idea<span>↗</span></button><button data-prompt="Help me break a project into manageable steps."><span data-icon="plan"></span>Make a plan<span>↗</span></button><button data-prompt="What do you remember about me?"><span data-icon="memory"></span>Remember me<span>↗</span></button></div>
+        </div>
+        <div id="messages" class="messages" aria-live="polite"></div>
+      </div>
+      <button id="jump-latest" class="jump-latest" hidden>↓ Latest message</button>
+    </section>
+    <section id="voice-page" class="page voice-page" hidden>
+      <div class="voice-heading"><span class="eyebrow">A CONVERSATION, AT YOUR PACE</span><h1>Just you and Flux.</h1><p>Your voice stays on your PC.</p></div>
+      <div class="orb voice-orb" aria-label="Flux voice activity"><div class="orb-halo"></div><div class="orb-ring"></div><div class="orb-image"><img src="../assets/flux-orb.png" alt="Pink Flux orb"></div></div>
+      <div id="voice-state" class="voice-state">Ready to listen</div><p class="voice-hint">Record your thoughts. Review the transcript. Send when you're ready.</p>
+      <button id="voice-record" class="record-button"><span data-icon="mic"></span><span>Start listening</span></button>
+      <div id="voice-answer" class="voice-answer" hidden></div>
+    </section>
+    <section id="memory-page" class="page content-page" hidden>
+      <div class="page-heading"><div><span class="eyebrow">A LITTLE CONTINUITY</span><h1>Flux Memory</h1><p>Things Flux remembers about you, across conversations.</p></div><button id="add-memory" class="primary"><span data-icon="plus"></span>Add memory</button></div>
+      <div class="memory-notice"><span data-icon="memory"></span><p>You’re in control. Edit what matters, remove what doesn’t.<br><small>Clear personal preferences can be learned automatically. Manage this in Settings.</small></p><span id="memory-total" class="pill">0 memories</span></div>
+      <div id="memory-list" class="memory-grid"></div>
+      <div class="memory-footer"><p>Memories are separate from your chat history.</p><button id="clear-memories" class="text-danger">Clear all memories</button></div>
+    </section>
+    <section id="settings-page" class="page content-page" hidden>
+      <div class="page-heading"><div><span class="eyebrow">MAKE YOURSELF AT HOME</span><h1>Your Flux, your way.</h1><p>A few thoughtful controls. Everything stays on this PC.</p></div></div>
+      <div class="settings-card"><div><h3>Learn useful personal facts</h3><p>Remember clear preferences, names, projects, and goals after a successful reply.<br>For everything else, add a memory manually. Existing chats are not scanned.</p></div><label class="toggle"><input id="auto-memory" type="checkbox" aria-label="Automatically learn personal facts"><span></span></label></div>
+      <div class="settings-card"><div><h3>Reduce motion</h3><p>Soften the orb to a gentle living glow and skip message transitions.</p></div><label class="toggle"><input id="reduce-motion" type="checkbox" aria-label="Reduce motion"><span></span></label></div>
+      <div class="settings-card information"><h3>Connected to your world</h3><dl><div><dt>AI brain</dt><dd id="settings-model"></dd></div><div><dt>Speech recognition</dt><dd>Whisper · local</dd></div><div><dt>Voice output</dt><dd>Windows voices · local</dd></div><div><dt>Memory & history</dt><dd>SQLite · on this PC</dd></div></dl><p>Flux has no web browsing or computer-control tools. Model responses can make mistakes.</p></div>
+      <p class="settings-note">History is stored in data/flux.db without encryption. The upgrade preserves a one-time backup of older data.<br>Deleting a memory does not erase mentions in chat history or the upgrade backup.</p>
+    </section>
+    <div id="composer-area" class="composer-area">
+      <div class="composer"><textarea id="input" rows="2" maxlength="4000" placeholder="Message Flux…" aria-label="Message Flux"></textarea><div class="composer-toolbar"><div class="composer-left"><button disabled class="icon-button" title="Attachments — planned" aria-label="Attachments — planned"><span data-icon="plus"></span></button><span class="composer-separator"></span><button id="mode" class="mode-button"><span data-icon="chat"></span><span>Text mode</span></button></div><div class="composer-right"><span id="model-label" class="model-label"></span><button id="mic" class="icon-button" title="Record voice" aria-label="Record voice"><span data-icon="mic"></span></button><button id="send" class="send-button" title="Send message" aria-label="Send message"><span data-icon="arrow"></span></button></div></div></div>
+      <div class="composer-caption"><span>Enter to send <span class="tiny-dot">·</span> Shift + Enter for a new line</span><span>YOUR SPACE. YOUR PACE.</span></div>
+    </div>
+    <footer class="statusbar"><span class="status-dot"></span><span id="status" role="status">Connecting to Flux…</span><span class="status-brand">FLUX <span> / </span> 02</span></footer>
+  </main>
+  <dialog id="modal"><form id="modal-form"><div id="modal-content"></div><p id="modal-error" role="alert"></p><div class="modal-actions"><button type="button" id="modal-cancel">Cancel</button><button id="modal-submit" type="submit" class="primary">Save</button></div></form></dialog>
+  <div id="conversation-menu" class="context-menu" hidden><button id="rename-chat"><span data-icon="edit"></span>Rename</button><button id="delete-chat" class="text-danger"><span data-icon="trash"></span>Delete</button></div>
+</body>
+</html>
