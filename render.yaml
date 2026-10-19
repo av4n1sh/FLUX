@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: flux-api
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements-web.txt
+    startCommand: uvicorn flux.web:create_app --factory --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /health
+    disk:
+      name: flux-history
+      mountPath: /var/data/flux
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: FLUX_WEB_DATA
+        value: /var/data/flux
+      - key: FLUX_WEB_TOKEN
+        generateValue: true
+      - key: FLUX_WEB_ORIGINS
+        sync: false
+      - key: FLUX_OLLAMA_URL
+        sync: false
+      - key: FLUX_OLLAMA_KEY
+        sync: false
+      - key: FLUX_MODEL
+        value: qwen3:4b

@@ -71,3 +71,12 @@
 Reproduction commands and storage/backup details are in README.md. Diagnostic logs,
 test-only databases, synthetic audio, JSON live-test reports, and screenshots are under
 `data/verification/`, outside version control and separate from personal history.
+# Web edition validation
+
+- Netlify build passed: `node scripts/build-web.mjs`, including execution from the `web` base directory.
+- Generated frontend JavaScript passed `node --check`.
+- 16 tests passed across `test_web.py`, `test_core.py`, and `test_memory_conversations.py`.
+- Web tests cover authentication, request limits, CORS, chat persistence, memory preservation, deletion confirmation, and failed model requests. AI responses are mocked.
+- Desktop UI tests were not runnable in the deployment-preparation environment because PySide6 was absent. Desktop source files were not changed.
+- Live Netlify hosting, hosted AI responses, browser rendering, and browser microphone/speech still require deployment verification. No authenticated hosting connection was available during preparation.
+

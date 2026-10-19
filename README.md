@@ -1,5 +1,13 @@
 # Flux
 
+## Web edition / Netlify
+
+Flux now includes a Netlify-ready frontend and a separate authenticated Python
+API. See [DEPLOYMENT.md](DEPLOYMENT.md) for deployment and local web setup.
+Hosting the frontend alone shows a connection screen; a working API and
+Ollama-compatible model server are required for chat. The desktop version below
+continues to work independently.
+
 A modular Windows desktop personal assistant. The interface is **HTML, CSS, and JavaScript**
 inside a PySide6 Qt WebEngine desktop window. Python handles Ollama, SQLite history,
 long-term memory, Whisper speech recognition, and Windows speech output.

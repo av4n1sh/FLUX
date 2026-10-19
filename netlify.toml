@@ -1,0 +1,11 @@
+[build]
+  base = "web"
+  command = "node ../scripts/build-web.mjs"
+  publish = "../dist"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    X-Frame-Options = "DENY"
